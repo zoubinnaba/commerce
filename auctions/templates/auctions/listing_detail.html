@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container">
+    <div>
+        <h1>Listing: {{ listing.title }}</h1>
+        <div class="card" style="width: 70rem;">
+            {% if listing.picture %}
+          <img src="{{ listing.picture.url }}" class="card-img-top" alt="pictutre">
+            {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ listing.title }}</h5>
+            <p class="card-text">{{ listing.price }} £</p>
+              <p class="card-text">{{ listing.description }}</p>
+          </div>
+          <ul class="list-group list-group-flush">
+              <p class="card-text">Details</p>
+            <li class="list-group-item">Bid: {{ listing.price }} £</li>
+            <li class="list-group-item">Category: {{ listing.category }}</li>
+            <li class="list-group-item">Listing by: {{ request.user.username }}</li>
+          </ul>
+        </div>
+        </div>
+    </div>
+{% endblock %}

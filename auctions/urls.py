@@ -1,10 +1,18 @@
 from django.urls import path
 
-from . import views
+from auctions.views import (
+    listing_detail,
+    login_view,
+    logout_view,
+    index,
+    register, listing_create,
+)
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("login", views.login_view, name="login"),
-    path("logout", views.logout_view, name="logout"),
-    path("register", views.register, name="register")
+    path("", index, name="index"),
+    path("<int:pk>/", listing_detail, name="listing_detail"),
+    path("listing_create/", listing_create, name="listing_create"),
+    path("login", login_view, name="login"),
+    path("logout", logout_view, name="logout"),
+    path("register", register, name="register")
 ]
