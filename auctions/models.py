@@ -34,7 +34,7 @@ class Bid(models.Model):
     offer = models.DecimalField(max_digits=20, decimal_places=2)
 
     def __str__(self):
-        return f"{self.bid.title}"
+        return f"{self.offer}"
 
     def make_bird(self):
         offer_make = self.bid.price + self.offer

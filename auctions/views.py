@@ -5,7 +5,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from auctions.models import (
     User,
-    Listing
+    Listing,
+    Bid,
 )
 from auctions.forms import ListingModelForm
 
@@ -20,8 +21,10 @@ def index(request):
 
 def listing_detail(request, pk):
     listing = Listing.objects.get(id=pk)
+    bid_price = Bid.objects.all()
     context = {
-        'listing': listing
+        'listing': listing,
+        'bid_price': bid_price
     }
     return render(request, "auctions/listing_detail.html", context)
 
