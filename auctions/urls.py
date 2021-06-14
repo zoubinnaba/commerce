@@ -5,7 +5,7 @@ from auctions.views import (
     login_view,
     logout_view,
     index,
-    register, listing_create,
+    register, listing_create
 )
 
 urlpatterns = [

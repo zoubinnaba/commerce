@@ -29,13 +29,21 @@ class Listing(models.Model):
         return self.title
 
 
+class Comment(models.Model):
+    listing = models.ForeignKey('Listing', on_delete=models.CASCADE, related_name="comment")
+    body = models.TextField(('Comment'), max_length=300)
+
+    def __str__(self):
+        return f"{self.listing}"
+
+
 class Bid(models.Model):
-    bid = models.ForeignKey(Listing, related_name="bird_listing", on_delete=models.CASCADE)
+    bid = models.ForeignKey('Listing', related_name="bird_listing", on_delete=models.CASCADE)
     offer = models.DecimalField(max_digits=20, decimal_places=2)
 
     def __str__(self):
         return f"{self.offer}"
 
-    def make_bird(self):
+    def make_bid(self):
         offer_make = self.bid.price + self.offer
         return offer_make

@@ -1,14 +1,14 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from auctions.models import (
     User,
     Listing,
-    Bid,
+    Bid, Comment,
 )
-from auctions.forms import ListingModelForm
+from auctions.forms import ListingModelForm, CommentModelForm
 
 
 def index(request):
@@ -20,12 +20,33 @@ def index(request):
 
 
 def listing_detail(request, pk):
-    listing = Listing.objects.get(id=pk)
+    listing = get_object_or_404(Listing, pk=pk)
     bid_price = Bid.objects.all()
+    comments = Comment.objects.all().filter(listing=listing)
     context = {
         'listing': listing,
-        'bid_price': bid_price
+        'bid_price': bid_price,
+        'comments': comments
+        # 'offer': offer
     }
+    if request.method == 'POST':
+        form = CommentModelForm(request.POST or None)
+        if form.is_valid():
+            body = request.POST["body"]
+            form = Comment.objects.create(
+                listing=listing,
+                body=body
+            )
+            form.save()
+            # offer = Bid.make_bid()
+            context = {
+                'form': form,
+                'listing': listing,
+                'comments': comments
+            }
+            return render(request, "auctions/listing_detail.html", context)
+    form = CommentModelForm()
+    context['form'] = form
     return render(request, "auctions/listing_detail.html", context)
 
 

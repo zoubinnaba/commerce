@@ -16,11 +16,26 @@
           <ul class="list-group list-group-flush">
               <p class="card-text">Details</p>
               {% for bid in bid_price %}
-            <li class="list-group-item">Bid: {{ bid.offer }} £</li>
+              <label>Bid</label>
+              <input value="{{ bid.offer }}" type="number" name="Bid">
               {% endfor %}
             <li class="list-group-item">Category: {{ listing.category }}</li>
-            <li class="list-group-item">Listing by: {{ request.user.username }}</li>
           </ul>
+
+        <div>
+            <h1>Comments...</h1>
+          {% for comment in comments %}
+
+            <p>{{ comment.body }}</p>
+          {% endfor %}
+        </div>
+            <div>
+                <form action="{% url 'listing_detail' listing.id %}" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="button is-primary">Message</button>
+                </form>
+            </div>
         </div>
         </div>
     </div>
